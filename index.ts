@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express-serve-static-core";
 import reqErrorHandler from "./utils/errorHandler";
 import helmet from "helmet";
 import { authRout } from "./routes";
-import data from "./data";
+import { findUser } from "./model/user";
 // fake avatar picyure https://pravatar.cc/
 
 dotenv.config();
@@ -28,5 +28,11 @@ app.all("*", (req, res) => {
   res.status(400).json({ err: "somthing went wrong" });
 });
 app.use(reqErrorHandler);
+
+new Promise((resolve) => {
+  new Promise((resolve) => {
+    resolve("hi");
+  });
+}).then((data) => console.log(data));
 
 app.listen(5000, () => console.log("server started on port " + port));

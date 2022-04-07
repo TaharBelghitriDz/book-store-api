@@ -1,12 +1,12 @@
 import { Response } from "express";
-import { tokenSign } from "../controller/token";
+import { tokenSign } from "../utils/token";
 import { ValidationPrms } from "../interfaces/authRes";
 import { FilterQuery } from "mongoose";
 import db from "../data";
 
 export const findUser = <T>(
   query: FilterQuery<T>,
-  cb: (err: Error | null, data: T) => void
+  cb?: (err: Error | null, data: T) => void
 ) => db.findOne(query, cb);
 
 export const addUser = (args: ValidationPrms & { res: Response }) => {

@@ -12,8 +12,8 @@ const productScheam = new mongoose.Schema<productsInterface>({
   cover: String,
   price: String,
   description: String,
-  ratting: String,
-  tags: [String],
+  ratting: Number,
+  tags: [{ name: String }],
 });
 
 const cartSchema = new mongoose.Schema<cartInterface>({
@@ -36,9 +36,14 @@ const dbSchema = new mongoose.Schema<dbInterface>({
   cart: {
     type: [cartSchema],
   },
+  pic: {
+    type: String,
+    default: "https://i.pravatar.cc/300",
+  },
 });
 
 const db = mongoose.model<dbInterface>("db", dbSchema);
+
 export const dbProducts = mongoose.model<productsInterface>(
   "products",
   productScheam

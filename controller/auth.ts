@@ -2,10 +2,10 @@ import { RequestHandler } from "express-serve-static-core";
 import { ValidationPrms } from "../interfaces/authRes";
 import { dbInterface } from "../interfaces/db";
 import { addUser, findUser } from "../model/user";
-import { resH } from "../utils/resHelper";
-import { comparePassword } from "./hash";
-import { tokenSign } from "./token";
-import { checkReqObject, validation } from "./validation";
+import resH from "../utils/resHelper";
+import { comparePassword } from "../utils/hash";
+import { tokenSign, tokenVrfy } from "../utils/token";
+import { checkReqObject, validation } from "../utils/validation";
 
 export const signIn: RequestHandler = (req, res) => {
   const body = req.body;
@@ -53,4 +53,27 @@ export const login: RequestHandler = (req, Fres) => {
       });
     }
   }
+};
+
+export const checkUser: RequestHandler = (req, res, next) => {
+  const token = req.headers.token;
+  const name = req.headers.name as string;
+
+  if (!token || !name)
+    res.status(400).json({
+      err: (token ? "name" : "token") + " is missing pleas try again",
+    });
+  else
+    findUser<dbInterface>({ name })
+      .then((user) => {
+        if (!user) throw { err: "unvalid user" };
+        tokenVrfy(token as string, `${user._id}`, (err, _) => {
+          if (err) throw { err: "unvalid token" };
+          res.locals.user = user;
+        });
+      })
+      .catch((err) => {
+        if (err.err) res.status(400).json({ err });
+        else res.status(500).json({ err: "somthing wrong happend " });
+      });
 };

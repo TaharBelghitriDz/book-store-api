@@ -4,6 +4,7 @@ export interface dbInterface extends Document {
   name: string;
   email: string;
   password: string;
+  pic: string;
   cart: cartInterface[];
 }
 

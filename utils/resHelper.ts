@@ -7,7 +7,7 @@ type resPrmsType = Response & {
   done: () => void;
 };
 
-export const resH = (res: Response) => ({
+export default (res: Response) => ({
   ...res,
   done(str: string, args?: { status: number; resBody: object }) {
     return res.status(args?.status || 400).json(args?.resBody || { err: str });
