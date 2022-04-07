@@ -9,13 +9,14 @@ export const addToCart: RequestHandler = (req, resF) => {
   if (!id) res.bad("cart item not found");
   else
     findProducts([{ _id: id }])
-      .then((product) => {
+      .then(async (product) => {
         if (!product) throw { err: "product not found " };
-        return addCartItem(product[0]._id, res.locals.user._id).then(
-          (data) => {}
-        );
+        const add = await addCartItem(product[0]._id, res.locals.user._id);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        if (err.err) res.bad(err.err);
+        else res.bad("somthing went wrong please try again");
+      });
 };
 export const findCarts: RequestHandler = (req, res) => {};
 export const removeCarts: RequestHandler = (req, res) => {};

@@ -26,4 +26,4 @@ export const updateProducts = (
   filter: FilterQuery<productsInterface>,
   newData: dbInterface,
   clb: (err: Error, rslt: any) => void
-) => dbProducts.updateOne(filter, newData, clb);
+) => dbProducts.findOneAndUpdate(filter, newData, clb);

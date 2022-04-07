@@ -6,7 +6,7 @@ export const validation: ({}: ValidationPrms) => string | ValidationPrms = (
   args
 ): string | ValidationPrms => {
   let { name, password, email, confirmPassword } = args;
-  if (!(name && password && email && confirmPassword))
+  if (!(name || password || email || confirmPassword))
     return "please fill the form";
 
   if (name)
@@ -35,17 +35,12 @@ export const checkReqObject = <T>(args: string[], reqBody: any): T | string => {
 };
 
 export const ProductValidation = (args: ReqProduct): string | ReqProduct => {
-  const { tags, cover, description, email, price } = args;
+  const { tags, cover, description, price } = args;
 
   // need to check tags and description and price
 
   const checkCover = /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(cover);
   if (!checkCover) return "unvalid cover url";
 
-  const checkEmail = email.match(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
-
-  if (!checkEmail) return "unvalid email ";
   return args;
 };

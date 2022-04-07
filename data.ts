@@ -38,7 +38,8 @@ const dbSchema = new mongoose.Schema<dbInterface>({
   },
   pic: {
     type: String,
-    default: "https://i.pravatar.cc/300",
+    default:
+      "https://i.pravatar.cc/150?img=" + (Math.floor(Math.random() * 69) + 1),
   },
 });
 

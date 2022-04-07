@@ -3,6 +3,7 @@ import { tokenSign } from "../utils/token";
 import { ValidationPrms } from "../interfaces/authRes";
 import { FilterQuery } from "mongoose";
 import db from "../data";
+import { HashPassword } from "../utils/hash";
 
 export const findUser = <T>(
   query: FilterQuery<T>,
@@ -21,22 +22,27 @@ export const addUser = (args: ValidationPrms & { res: Response }) => {
         err: (name === result.name ? "name" : "email") + " already used",
       });
     else {
-      new db({ name, email, password }).save((err, data) => {
-        console.log("heree");
-
-        if (err) res.status(400).json({ err: "somthing went wrong" });
+      HashPassword(password, (err, hashedPassword) => {
+        if (err)
+          res.status(400).json({ err: "somthing went wrong pleas try again" });
         else
-          tokenSign({
-            str: data.email,
-            key: `${data._id}`,
-            clb(err, token) {
-              if (err)
-                res
-                  .status(400)
-                  .json({ err: "somthing went wrong pleas try again" });
-              else res.status(200).json({ token });
-            },
-          });
+          new db({ name, email, password: hashedPassword }).save(
+            (err, data) => {
+              if (err) res.status(400).json({ err: "somthing went wrong" });
+              else
+                tokenSign({
+                  str: data.email,
+                  key: `${data._id}`,
+                  clb(err, token) {
+                    if (err)
+                      res
+                        .status(400)
+                        .json({ err: "somthing went wrong pleas try again" });
+                    else res.status(200).json({ token });
+                  },
+                });
+            }
+          );
       });
     }
   });

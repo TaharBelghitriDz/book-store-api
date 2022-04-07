@@ -25,7 +25,6 @@ export const signIn: RequestHandler = (req, res) => {
 export const login: RequestHandler = (req, Fres) => {
   const body = req.body;
   let res = resH(Fres);
-
   const checkReq: ValidationPrms | string = checkReqObject(
     ["email", "password"],
     body
@@ -70,10 +69,11 @@ export const checkUser: RequestHandler = (req, res, next) => {
         tokenVrfy(token as string, `${user._id}`, (err, _) => {
           if (err) throw { err: "unvalid token" };
           res.locals.user = user;
+          next();
         });
       })
       .catch((err) => {
-        if (err.err) res.status(400).json({ err });
+        if (err.err) res.status(400).json({ err: err.err });
         else res.status(500).json({ err: "somthing wrong happend " });
       });
 };

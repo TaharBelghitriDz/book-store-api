@@ -4,7 +4,7 @@ const saltRounds = 8;
 
 export const HashPassword = (
   str: string,
-  clb: (err: Error | undefined, hash: string) => {}
+  clb: (err: Error | undefined, hash: string) => void
 ) => bcrypt.hash(str, saltRounds, clb);
 
 export const comparePassword = (
