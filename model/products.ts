@@ -1,4 +1,4 @@
-import { FilterQuery, SaveOptions } from "mongoose";
+import { FilterQuery } from "mongoose";
 import { dbProducts } from "../data";
 import { dbInterface, productsInterface } from "../interfaces/db";
 

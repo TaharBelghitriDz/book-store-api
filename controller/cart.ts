@@ -3,6 +3,8 @@ import { addCartItem } from "../model/cart";
 import { findProducts } from "../model/products";
 import resHelper from "../utils/resHelper";
 
+// working on it now
+
 export const addToCart: RequestHandler = (req, resF) => {
   const res = resHelper(resF);
   const id = req.query.id || false;
@@ -11,7 +13,7 @@ export const addToCart: RequestHandler = (req, resF) => {
     findProducts([{ _id: id }])
       .then(async (product) => {
         if (!product) throw { err: "product not found " };
-        const add = await addCartItem(product[0]._id, res.locals.user._id);
+        return addCartItem(product[0]._id, res.locals.user._id);
       })
       .catch((err) => {
         if (err.err) res.bad(err.err);

@@ -1,13 +1,11 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { NextFunction, Request, Response } from "express-serve-static-core";
 import reqErrorHandler from "./utils/errorHandler";
 import helmet from "helmet";
 import { authRout } from "./routes";
 import productRout from "./routes/products";
 import cartRout from "./routes/cart";
-import db from "./data";
 // fake avatar picyure https://pravatar.cc/
 
 dotenv.config();

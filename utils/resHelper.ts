@@ -4,7 +4,7 @@ import { Response } from "express";
 
 type resPrmsType = Response & {
   bad: (str: string, args: { status: number }) => void;
-  done: () => void;
+  done: (str: string, args: { status: number }) => void;
 };
 
 export default (res: Response) => ({
