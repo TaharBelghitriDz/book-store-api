@@ -4,8 +4,8 @@ import { addToCart, findCarts, removeCarts } from "../controller/cart";
 
 const cartRout = Router();
 
-cartRout.get("/find", findCarts);
 cartRout.use(checkUser);
+cartRout.get("/find", findCarts);
 cartRout.post("/add", addToCart);
 cartRout.post("/remove", removeCarts);
 

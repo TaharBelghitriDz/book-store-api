@@ -57,7 +57,6 @@ export const login: RequestHandler = (req, Fres) => {
 export const checkUser: RequestHandler = (req, res, next) => {
   const token = req.headers.token;
   const name = req.headers.name as string;
-
   if (!token || !name)
     res.status(400).json({
       err: (token ? "name" : "token") + " is missing pleas try again",

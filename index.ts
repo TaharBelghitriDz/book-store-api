@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import reqErrorHandler from "./utils/errorHandler";
@@ -6,6 +6,7 @@ import helmet from "helmet";
 import { authRout } from "./routes";
 import productRout from "./routes/products";
 import cartRout from "./routes/cart";
+import db from "./data";
 // fake avatar picyure https://pravatar.cc/
 
 dotenv.config();
@@ -24,7 +25,7 @@ app.use("/cart", cartRout);
 const port = process.env.PORT || 5000;
 
 app.all("*", (req, res) => {
-  res.status(400).json({ err: "somthing went wrong" });
+  res.status(400).json({ err: "unvalid url" });
 });
 app.use(reqErrorHandler);
 

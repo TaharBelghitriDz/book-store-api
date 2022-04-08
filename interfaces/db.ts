@@ -20,4 +20,5 @@ export interface productsInterface extends Document {
   description: string;
   ratting: string;
   tags: string[];
+  cart: { itemId: string }[];
 }

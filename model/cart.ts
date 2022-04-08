@@ -1,5 +1,5 @@
 import db from "../data";
-import { cartInterface } from "../interfaces/db";
+import { dbInterface } from "../interfaces/db";
 
 export const addCartItem = (id: string, userId: string) =>
   db.findOneAndUpdate(
@@ -8,15 +8,19 @@ export const addCartItem = (id: string, userId: string) =>
     { multi: false, new: true }
   );
 
-export const findCartItem = (id: string, range: number = 0) =>
+export const findCartItems = (id: string, range: number = 0) =>
   db
-    .findOne({ cart: { $elemMatch: { itemId: id } } })
+    .findOne({ _id: id })
     .skip(range)
     .limit(range + 5);
 
-export const removeCartItem = (id: string) =>
+export const removeCartItem = (
+  id: string,
+  itemId: string,
+  cb: (err: Error, rslt: dbInterface) => void
+) =>
   db.findOneAndUpdate(
     { cart: { $elemMatch: { itemId: id } } },
-    { $pull: { cart: { $elemMatch: { itemId: id } } } },
-    { multi: false, new: true }
+    { $pull: { cart: { _id: itemId, itemId: id } } },
+    cb
   );
