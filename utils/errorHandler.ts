@@ -1,8 +1,8 @@
 import { ErrorRequestHandler } from "express-serve-static-core";
 
-const reqErrorHandler: ErrorRequestHandler = (err: Error, _, res) =>
+const reqErrorHandler: ErrorRequestHandler = (err: Error, _, res) => {
   res
-    .status(400)
-    .json({ err: err.message || "somthing went wrong please try again" });
-
+    .status(res.statusCode !== 200 ? res.statusCode : 500)
+    .json({ err: "somthing went wrong please try again" });
+};
 export default reqErrorHandler;
